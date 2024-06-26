@@ -8,7 +8,17 @@ const voteRoutes = require('./routes/voteRoutes');
 
 
 const app = express();
-app.use(cors());
+const corsOptions ={
+  //allow from all
+    origin: '*',
+    credentials:true,            
+    //access-control-allow-credentials:true
+    optionSuccessStatus:200,
+    //allow everything
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+
+}
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 
