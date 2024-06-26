@@ -25,7 +25,7 @@ exports.register = async (req, res) => {
     const otpToken = tokenService.getOtpToken(otp);
     await User.storeOTP(createdUser.id, otpToken);
     // console.log("otpCode: ", otp);
-    await sendEmail.sendConfirmationMail(createdUser.full_name, createdUser.email, code);
+    await sendEmail.sendConfirmationMail(createdUser.full_name, createdUser.email, otp);
 
     const userToken = tokenService.getTempUserIntoToken(createdUser.email);
 
@@ -120,7 +120,7 @@ exports.login = async (req, res) => {
     const otpToken = tokenService.getOtpToken(otp);
     await User.storeOTP(user.id, otpToken);
     // console.log("otpCode: ", otp);
-    await sendEmail.sendConfirmationMail(user.full_name, user.email, code);
+    await sendEmail.sendConfirmationMail(user.full_name, user.email, otp);
 
     const userToken = tokenService.getTempUserIntoToken(user.email);
     return res
