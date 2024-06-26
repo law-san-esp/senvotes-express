@@ -72,7 +72,7 @@ Le serveur sera lancé sur `http://localhost:5000` si aucun port n'est spécifi�
   - **Corps de la requête**:
     ```json
     {
-      "fullName": "John Doe",
+      "full_name": "John Doe",
       "email": "john.doe@example.com",
       "password": "your-password"
     }
