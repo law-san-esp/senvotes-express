@@ -42,13 +42,22 @@ exports.verifyOtpToken = (token) => {
     }
 }
 
-exports.getAuthToken = (userId) => {
+exports.getAuthToken = (user) => {
     try {
-      return jwt.sign({ userId }, process.env.JWT_SECRET, {
+      return jwt.sign({ user }, process.env.JWT_SECRET, {
         expiresIn: '3d'
       });
     } catch (error) {
       console.error(error);
       throw new exceptions.TokenException("Error while generating auth token");
+    }
+}
+
+exports.verifyAuthToken = async (token) => {
+    try {
+      return jwt.verify(token, process.env.JWT_SECRET);
+    } catch (error) {
+      console.error(error);
+      throw new exceptions.TokenException("Error while verifying auth token");
     }
 }

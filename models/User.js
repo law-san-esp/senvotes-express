@@ -2,6 +2,16 @@ const supabase = require("../config/supabaseClient");
 const exceptions = require("../utils/exceptions");
 
 class User {
+  
+   toJson() {
+    return {
+      id: this.id,
+      full_name: this.full_name,
+      email: this.email,
+      role: this.role,
+    };
+  }
+
   static async create(userData) {
     const { data, error } = await supabase
       .from("users")

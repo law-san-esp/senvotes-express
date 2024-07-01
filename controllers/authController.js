@@ -49,9 +49,9 @@ exports.verify = async (req, res) => {
   try {
     const { code, user_token } = req.body;
 
-    const userEmail = tokenService.verifyUserTempToken(user_token);
-    console.log("userEmail: ", userEmail);
-    const user = await User.findByEmail(userEmail.email);
+    const tempToken = tokenService.verifyUserTempToken(user_token);
+    console.log("tempToken: ", tempToken);
+    const user = await User.findByEmail(tempToken.email);
     const otpToken = await User.getOTP(user.id);
 
     const otp = tokenService.verifyOtpToken(otpToken).otp;
@@ -61,7 +61,7 @@ exports.verify = async (req, res) => {
       throw new exceptions.OtpException("Invalid OTP");
     }
 
-    const authToken = tokenService.getAuthToken(user.id);
+    const authToken = tokenService.getAuthToken(user.toJson());
     res.status(200).json({ message: "User verified", authToken });
   } catch (error) {
     if (error.name === "TokenException") {
@@ -80,8 +80,8 @@ exports.verify = async (req, res) => {
 exports.resendVerification = async (req, res) => {
   try {
     const { user_token } = req.body;
-    const userEmail = tokenService.verifyUserTempToken(user_token);
-    const user = await User.findByEmail(userEmail.email);
+    const tempToken = tokenService.verifyUserTempToken(user_token);
+    const user = await User.findByEmail(tempToken.email);
     const newOtp = Math.floor(100000 + Math.random() * 900000);
     const newOtpToken = tokenService.getOtpToken(newOtp);
     await User.storeOTP(user.id, newOtpToken);
