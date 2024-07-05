@@ -65,7 +65,9 @@ exports.listVotes = async (req, res) => {
   try {
     const votes = await Vote.findAll();
     res.status(200).json(votes);
+
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+

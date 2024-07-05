@@ -1,3 +1,4 @@
+
 const supabase = require("../config/supabaseClient");
 
 class Vote {
@@ -22,6 +23,7 @@ class Vote {
       console.log("Db error:", error);
       throw error;
     }
+
     return data;
   }
 
@@ -47,6 +49,7 @@ class Vote {
     }
     return results;
   }
+
 }
 
 module.exports = Vote;

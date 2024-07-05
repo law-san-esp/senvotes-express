@@ -9,4 +9,5 @@ router.post('/delete', middlewares.adminMiddleware, eventController.deleteEvent)
 router.get('/list', middlewares.authMiddleware, eventController.listEvents);
 router.get('/:id', middlewares.authMiddleware, eventController.findEventById);
 
+
 module.exports = router;
