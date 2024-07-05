@@ -2,6 +2,16 @@ const supabase = require("../config/supabaseClient");
 const exceptions = require("../utils/exceptions");
 
 class User {
+   static toJson(user) {
+    return {
+      id: user.id,
+      full_name: user.full_name,
+      email: user.email,
+      role: user.role,
+    };
+  }
+
+
   static async create(userData) {
     const { data, error } = await supabase
       .from("users")
@@ -29,14 +39,15 @@ class User {
     const { data, error } = await supabase
       .from("users")
       .select("*")
-      .eq("email", email)
-      .single();
+      .eq("email", email);
+
     if (error) {
       console.log("Db error:", error);
       throw new exceptions.DbException("Error while getting user");
     }
-    if (!data) throw new exceptions.UserNotFoundException("User not found");
-    return data;
+    if (!data || data.length == 0) throw new exceptions.UserNotFoundException("User not found");
+    return data[0];
+
   }
 
   static async findById(id) {
