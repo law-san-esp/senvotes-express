@@ -3,12 +3,12 @@ const exceptions = require("../utils/exceptions");
 
 class User {
   
-   toJson() {
+   static toJson(user) {
     return {
-      id: this.id,
-      full_name: this.full_name,
-      email: this.email,
-      role: this.role,
+      id: user.id,
+      full_name: user.full_name,
+      email: user.email,
+      role: user.role,
     };
   }
 
@@ -39,14 +39,13 @@ class User {
     const { data, error } = await supabase
       .from("users")
       .select("*")
-      .eq("email", email)
-      .single();
+      .eq("email", email);
     if (error) {
       console.log("Db error:", error);
       throw new exceptions.DbException("Error while getting user");
     }
-    if (!data) throw new exceptions.UserNotFoundException("User not found");
-    return data;
+    if (!data || data.length == 0) throw new exceptions.UserNotFoundException("User not found");
+    return data[0];
   }
 
   static async findById(id) {

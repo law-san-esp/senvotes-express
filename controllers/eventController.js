@@ -19,15 +19,15 @@ exports.createEvent = async (req, res) => {
   try {
     const { name, options, limit_date } = req.body;
 
-    if (authorizedUsers.length < 5) {
-      return res
-        .status(400)
-        .json({ message: "At least 5 authorized users required" });
-    }
+    // if (authorizedUsers.length < 5) {
+    //   return res
+    //     .status(400)
+    //     .json({ message: "At least 5 authorized users required" });
+    // }
 
     const event = await Event.create({
       name,
-      options: JSON.stringify(options),
+      options: options,
       limit_date,
       // authorized_users: JSON.stringify(authorizedUsers),
     });
@@ -39,6 +39,7 @@ exports.createEvent = async (req, res) => {
 
     res.status(201).json(event);
   } catch (error) {
+    console.log("Error while creating event", error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -82,7 +83,7 @@ exports.listEvents = async (req, res) => {
         );
         const votesCount = await Event.getEventVotesCount(event.id);
         return {
-          ...event._doc,
+          ...event,
           voted: userHasVoted,
           votes_count: votesCount,
         };
@@ -90,6 +91,7 @@ exports.listEvents = async (req, res) => {
     );
     res.status(200).json(eventWithVotedStatus);
   } catch (error) {
+    console.log("Error while listing events", error);
     res.status(500).json({ error: error.message });
   }
 };

@@ -25,7 +25,7 @@ exports.register = async (req, res) => {
     const otpToken = tokenService.getOtpToken(otp);
     await User.storeOTP(createdUser.id, otpToken);
     // console.log("otpCode: ", otp);
-    await sendEmail.sendConfirmationMail(createdUser.full_name, createdUser.email, code);
+    await sendEmail.sendConfirmationMail(createdUser.full_name, createdUser.email, otp);
 
     const userToken = tokenService.getTempUserIntoToken(createdUser.email);
 
@@ -61,7 +61,7 @@ exports.verify = async (req, res) => {
       throw new exceptions.OtpException("Invalid OTP");
     }
 
-    const authToken = tokenService.getAuthToken(user.toJson());
+    const authToken = tokenService.getAuthToken(User.toJson(user));
     res.status(200).json({ message: "User verified", authToken });
   } catch (error) {
     if (error.name === "TokenException") {
@@ -109,7 +109,7 @@ exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findByEmail(email);
-
+    
     if (!bcrypt.compareSync(password, user.password)) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
@@ -120,7 +120,7 @@ exports.login = async (req, res) => {
     const otpToken = tokenService.getOtpToken(otp);
     await User.storeOTP(user.id, otpToken);
     // console.log("otpCode: ", otp);
-    await sendEmail.sendConfirmationMail(user.full_name, user.email, code);
+    await sendEmail.sendConfirmationMail(user.full_name, user.email, otp);
 
     const userToken = tokenService.getTempUserIntoToken(user.email);
     return res
@@ -131,6 +131,7 @@ exports.login = async (req, res) => {
       console.log("Error while logging in the user", error);
       return res.status(404).json({ message: error.message });
     }
+    console.log("Error while logging in the user", error);
     res.status(500).json({ message: error.message });
   }
 };

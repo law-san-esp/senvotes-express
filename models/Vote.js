@@ -1,11 +1,10 @@
 const supabase = require("../config/supabaseClient");
 
 class Vote {
-  static async create(voteData) {
-    const { user, eventId, option } = voteData;
-
+  static async create(hashedUserId, eventId, option) {
+    console.log("vote data",{ hashedUserId, eventId, option});
     const { data, error } = await supabase.rpc("create_vote", {
-      user_id: user,
+      hashed_user_id: hashedUserId,
       event_id: eventId,
       option: option,
     });
@@ -16,10 +15,13 @@ class Vote {
 
   static async findByEventId(eventId) {
     const { data, error } = await supabase
-      .from("id, option, event_id")
-      .select("option")
+      .from("votes")
+      .select("event_id, user")
       .eq("event_id", eventId);
-    if (error) throw error;
+    if (error) {
+      console.log("Db error:", error);
+      throw error;
+    }
     return data;
   }
 

@@ -2,7 +2,7 @@ const supabase = require('../config/supabaseClient');
 
 class Event {
   static async create(eventData) {
-    const { data, error } = await supabase.from('events').insert([eventData]);
+    const { data, error } = await supabase.from('events').insert([eventData]).select()
     if (error) throw error;
     return data[0];
   }
@@ -20,8 +20,9 @@ class Event {
   }
 
   static async findById(id) {
-    const { data, error } = await supabase.from('events').select('*').eq('id', id).single();
+    const { data, error } = await supabase.from('events').select('*').eq('id', id);
     if (error) throw error;
+    if (!data || data.length === 0) throw new Error('Event not found');
     return data;
   }
 
@@ -38,7 +39,7 @@ class Event {
   }
 
   static async getEventVotesCount(eventId) {
-    const { data, error } = await supabase.rpc('get_votes_count', { event_id: eventId });
+    const { data, error } = await supabase.rpc('get_votes_count', { event: eventId });
     if (error) throw error;
     return data;
   }
