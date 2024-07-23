@@ -17,7 +17,7 @@ class Vote {
   static async findByEventId(eventId) {
     const { data, error } = await supabase
       .from("votes")
-      .select("event_id, user")
+      .select("event_id, user, option")
       .eq("event_id", eventId);
     if (error) {
       console.log("Db error:", error);
@@ -33,23 +33,26 @@ class Vote {
     return data;
   }
 
-  static getResults(event, votes) {
+  static getResults = (event, votes) => {
     let results = [];
-    //if event limit is over
-    //create a list of vote objects with {option, count, percentage}
-    if (event.limit_date < new Date()) {
+  
+    // Assurez-vous que limit_date et la date actuelle sont des objets Date
+    const eventLimitDate = new Date(event.limit_date);
+    const currentDate = new Date();
+  
+    // Si la date limite de l'événement est dépassée
+    if (eventLimitDate < currentDate) {
       results = event.options.map((option) => {
         const count = votes.filter((vote) => vote.option === option).length;
         return {
           option,
           count,
-          percentage: (count / votes.length) * 100,
+          percentage: votes.length > 0 ? (count / votes.length) * 100 : 0,
         };
       });
     }
+  
     return results;
-  }
-
+  };
 }
-
 module.exports = Vote;

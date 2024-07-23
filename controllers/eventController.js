@@ -104,7 +104,7 @@ exports.findEventById = async (req, res) => {
     const userId = req.user.id;
     const userHasVoted = await voteController.checkIfUserHasVoted(userId, id);
     const votes = await Vote.findByEventId(id);
-    const results = Vote.getResults(event, votes);
+    const results = await Vote.getResults(event, votes);
     event.voted = userHasVoted;
     event.votes_count = votes.length;
     event.results = results;
