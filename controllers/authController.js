@@ -111,6 +111,9 @@ exports.login = async (req, res) => {
     const user = await User.findByEmail(email);
     
     if (!bcrypt.compareSync(password, user.password)) {
+      console.log("Invalid credentials");
+      console.log("Password: ", password);
+      console.log("Hashed Password: ", user.password);
       return res.status(401).json({ message: "Invalid credentials" });
     }
 

@@ -2,7 +2,7 @@ const supabase = require("../config/supabaseClient");
 
 class Vote {
   static async create(hashedUserId, eventId, option) {
-    console.log("vote data",{ hashedUserId, eventId, option});
+    console.log("vote data", hashedUserId, eventId, option)
     const { data, error } = await supabase.rpc("create_vote", {
       hashed_user_id: hashedUserId,
       event_id: eventId,

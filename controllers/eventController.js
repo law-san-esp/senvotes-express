@@ -104,14 +104,10 @@ exports.findEventById = async (req, res) => {
     const userHasVoted = await voteController.checkIfUserHasVoted(userId, id);
     const votes = await Vote.findByEventId(id);
     const results = Vote.getResults(event, votes);
-     res.status(200)
-      .json({
-        ...event._doc,
-        voted: userHasVoted,
-        votes_count: votes.length,
-        results: results,
-      });
-
+    event.voted = userHasVoted;
+    event.votes_count = votes.length;
+    event.results = results;
+    res.status(200).json(event);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
