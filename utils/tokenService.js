@@ -45,6 +45,7 @@ exports.verifyOtpToken = (token) => {
 exports.getAuthToken = (user) => {
     try {
       return jwt.sign({ user }, process.env.JWT_SECRET, {
+
         expiresIn: '3d'
       });
     } catch (error) {
@@ -60,4 +61,5 @@ exports.verifyAuthToken = async (token) => {
       console.error(error);
       throw new exceptions.TokenException("Error while verifying auth token");
     }
+
 }

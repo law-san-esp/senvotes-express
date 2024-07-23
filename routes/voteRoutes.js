@@ -5,4 +5,5 @@ const router = express.Router();
 
 router.post("/create", middlewares.authMiddleware, voteController.vote);
 
+
 module.exports = router;

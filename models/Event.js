@@ -20,7 +20,8 @@ class Event {
   }
 
   static async delete(id) {
-    const { data, error } = await supabase.from("events").delete().eq("id", id);
+    const { data, error } = await supabase.from('events').delete().eq('id', id);
+
     if (error) throw error;
     return data[0];
   }
@@ -33,6 +34,7 @@ class Event {
     if (error) throw error;
     if (!data || data.length === 0) throw new Error("Event not found");
     return data[0];
+
   }
 
   static async findAll() {
@@ -61,6 +63,7 @@ class Event {
     if (error) throw error;
     return data;
   }
+
 }
 
 module.exports = Event;
