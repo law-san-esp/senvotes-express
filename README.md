@@ -130,7 +130,7 @@ Le serveur sera lancé sur `http://localhost:5000` si aucun port n'est spécifi�
 
 ## Sécurité
 
-- Utilisez HTTPS pour sécuriser les communications entre le client et le serveur.
+- HTTPS a été configuré sur la branche ssl-config pour sécuriser les communications entre le client et le serveur, vous pouvez juste ajouter votre certificat et votre clé SSL dans un dossier 'cert' à la racine du projet pour qu'il les prenne en compte 
 - Les mots de passe sont hachés avec bcrypt.
 - Les tokens JWT sont utilisés pour l'authentification et ont une durée de vie de 72 heures.
 - Les cookies de session sont marqués HttpOnly et expirent après 72 heures.
