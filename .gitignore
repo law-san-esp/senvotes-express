@@ -7,6 +7,8 @@
 
 # Environment variables
 .env
+cert
+.pem
 
 # Logs
 logs
