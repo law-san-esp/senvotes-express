@@ -101,7 +101,6 @@ Le serveur sera lancé sur `http://localhost:5000` si aucun port n'est spécifi�
       "name": "Election 2024",
       "options": ["Candidate A", "Candidate B"],
       "limit_date": "2024-12-31",
-      "authorizedUsers": ["user1@example.com", "user2@example.com"]
     }
     ```
 
