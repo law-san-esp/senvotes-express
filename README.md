@@ -39,10 +39,12 @@ Créez un fichier `.env` à la racine du projet et ajoutez les variables d'envir
 SUPABASE_URL=your-supabase-url
 SUPABASE_KEY=your-supabase-key
 JWT_SECRET=your-secret-key
-EMAIL_HOST=your-email-host
-EMAIL_PORT=your-email-port
+PORT=preferred-pord-to-use
+SENDGRID_FROM_EMAIL=your-email-host
+SENDGRID_CODE_TEMPLATE=your-template-code-from-sendgrid
 EMAIL_USER=your-email-user
 EMAIL_PASS=your-email-pass
+SENDGRID_API_KEY=your-sendgrid-api-key
 ```
 
 ## Démarrage
