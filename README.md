@@ -42,8 +42,6 @@ JWT_SECRET=your-secret-key
 PORT=preferred-pord-to-use
 SENDGRID_FROM_EMAIL=your-email-host
 SENDGRID_CODE_TEMPLATE=your-template-code-from-sendgrid
-EMAIL_USER=your-email-user
-EMAIL_PASS=your-email-pass
 SENDGRID_API_KEY=your-sendgrid-api-key
 ```
 
