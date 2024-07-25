@@ -23,6 +23,7 @@ var limiter = RateLimit({
 app.use(limiter);
 app.get('/', (req, res) => {
     res.json({ message: 'Welcome to SENVOTE API using SSL' });
+
 });
 app.use('/api/auth', authRoutes);
 app.use('/api/events', eventRoutes);
@@ -33,4 +34,3 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server 🚀 running on port ${PORT}`);
 });
-
