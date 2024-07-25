@@ -57,9 +57,11 @@ exports.updateEvent = async (req, res) => {
 
     res.status(200).json(event);
   } catch (error) {
+
     res.status(500).json({ message: error.message });
   }
 };
+
 
 exports.deleteEvent = async (req, res) => {
   try {
@@ -104,11 +106,13 @@ exports.findEventById = async (req, res) => {
     const userId = req.user.id;
     const userHasVoted = await voteController.checkIfUserHasVoted(userId, id);
     const votes = await Vote.findByEventId(id);
+
     const results = await Vote.getResults(event, votes);
     event.voted = userHasVoted;
     event.votes_count = votes.length;
     event.results = results;
     res.status(200).json(event);
+
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
