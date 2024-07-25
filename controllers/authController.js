@@ -24,7 +24,6 @@ exports.register = async (req, res) => {
     const otp = Math.floor(100000 + Math.random() * 900000);
     const otpToken = tokenService.getOtpToken(otp);
     await User.storeOTP(createdUser.id, otpToken);
-    // console.log("otpCode: ", otp);
     await sendEmail.sendConfirmationMail(createdUser.full_name, createdUser.email, otp);
 
     const userToken = tokenService.getTempUserIntoToken(createdUser.email);
@@ -50,7 +49,6 @@ exports.verify = async (req, res) => {
     const { code, user_token } = req.body;
 
     const tempToken = tokenService.verifyUserTempToken(user_token);
-    console.log("tempToken: ", tempToken);
     const user = await User.findByEmail(tempToken.email);
 
     const otpToken = await User.getOTP(user.id);
@@ -58,7 +56,6 @@ exports.verify = async (req, res) => {
     const otp = tokenService.verifyOtpToken(otpToken).otp;
 
     if (otp != code) {
-      console.log("Actual OTP: ", otp);
       throw new exceptions.OtpException("Invalid OTP");
     }
 
@@ -116,8 +113,6 @@ exports.login = async (req, res) => {
 
     if (!bcrypt.compareSync(password, user.password)) {
       console.log("Invalid credentials");
-      console.log("Password: ", password);
-      console.log("Hashed Password: ", user.password);
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
@@ -126,7 +121,6 @@ exports.login = async (req, res) => {
     const otp = Math.floor(100000 + Math.random() * 900000);
     const otpToken = tokenService.getOtpToken(otp);
     await User.storeOTP(user.id, otpToken);
-    // console.log("otpCode: ", otp);
     await sendEmail.sendConfirmationMail(user.full_name, user.email, otp);
 
     const userToken = tokenService.getTempUserIntoToken(user.email);

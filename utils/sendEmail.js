@@ -67,7 +67,6 @@ const sendTestMail = async (full_name, mail) => {
 //send confirmation mail
 const sendConfirmationMail = async (full_name, email, otp) => {
   const msg = createAccountVerificationMsg(full_name, email, otp);
-  console.log("msg: ", msg);
   await sendEmail(msg)
     .then(() => {
       console.log("Email sent");
